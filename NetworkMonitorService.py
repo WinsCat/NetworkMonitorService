@@ -1,4 +1,4 @@
-# Copyright (C) 2023 iSeeNEw Studio, Inc. All Rights Reserved 
+# Copyright (C) 2023 iSeeNEw Studio, Inc. All Rights Reserved
 #
 # @Time    : 18/8/24 PM9:27
 # @Author  : Wins
@@ -21,7 +21,7 @@ import re
 class NetworkMonitorService(win32serviceutil.ServiceFramework):
     _svc_name_ = "NetworkMonitorService"
     _svc_display_name_ = "Network Monitor Service"
-    _svc_description_ = "Monitors network and changes gateway based on ping results."
+    _svc_description_ = "融汇图灵小组开发的网关热备服务，根据网络情况自动获取、切换本机网络参数"
 
     def __init__(self, args):
         win32serviceutil.ServiceFramework.__init__(self, args)
@@ -70,11 +70,17 @@ class NetworkMonitorService(win32serviceutil.ServiceFramework):
         if self.is_dhcp_enabled(self.adapter_name):
             self.release_renew_dhcp(self.adapter_name)
         else:
-            subprocess.call(f'netsh interface ip set address name="{self.adapter_name}" gateway={gateway}', shell=True)
+            subprocess.call(
+                f'netsh interface ip set address name="{self.adapter_name}" gateway={gateway}',
+                shell=True)
 
     def get_adapter_name(self):
         # 自动检测活动的网络适配器名称
-        result = subprocess.run('netsh interface show interface', shell=True, capture_output=True, text=True)
+        result = subprocess.run(
+            'netsh interface show interface',
+            shell=True,
+            capture_output=True,
+            text=True)
         for line in result.stdout.splitlines():
             if "Connected" in line:
                 return line.split()[-1]  # 返回连接状态的适配器名称
@@ -82,8 +88,11 @@ class NetworkMonitorService(win32serviceutil.ServiceFramework):
 
     # DHCP判断
     def is_dhcp_enabled(self, adapter_name):
-        result = subprocess.run(f'netsh interface ip show config name="{adapter_name}"', shell=True,
-                                capture_output=True, text=True)
+        result = subprocess.run(
+            f'netsh interface ip show config name="{adapter_name}"',
+            shell=True,
+            capture_output=True,
+            text=True)
         return "DHCP enabled: Yes" in result.stdout
 
         # 获取新网络信息    def release_renew_dhcp(self, adapter_name):
@@ -92,7 +101,8 @@ class NetworkMonitorService(win32serviceutil.ServiceFramework):
         time.sleep(5)  # 等待一段时间以确保释放
         subprocess.call(f'ipconfig /renew "{adapter_name}"', shell=True)
         time.sleep(5)  # 等待一段时间以确保续订
-        servicemanager.LogInfoMsg(f"DHCP settings refreshed for adapter {adapter_name}")
+        servicemanager.LogInfoMsg(
+            f"DHCP settings refreshed for adapter {adapter_name}")
 
 
 if __name__ == '__main__':
