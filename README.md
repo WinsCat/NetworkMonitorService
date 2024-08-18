@@ -1,9 +1,9 @@
 # NetworkMonitorService
 
-**<h2>融汇图灵小组开发的网关热备服务，根据网络情况自动获取、切换本机网络参数</h2>**
+** < h2 > 融汇图灵小组开发的网关热备服务，根据网络情况自动获取、切换本机网络参数 < /h2 > **
 **应用场景：Windows**
 
-**<h3>脚本功能说明</h3>**
+** < h3 > 脚本功能说明 < /h3 > **
 
 	自动检测网络适配器名称：脚本会自动检测当前连接的网络适配器名称，而不需要手动指定。
 	检查DHCP状态：在更改网关之前，脚本会检查该网络适配器是否启用了DHCP。
@@ -14,27 +14,27 @@
 
 **<h3>Python 安装运行服务</h3>**
 
-#1.安装服务
+# 1.安装服务
 
 <pre><code>python NetworkMonitorService.py install</code></pre>
 
-#2.让服务自动启动
+# 2.让服务自动启动
 
 <pre><code>python NetworkMonitorService.py --startup auto install</code></pre>
 
-#3.启动服务
+# 3.启动服务
 
 <pre><code>python NetworkMonitorService.py start</code></pre>
 
-#4.重启服务
+# 4.重启服务
 
 <pre><code>python NetworkMonitorService.py restart</code></pre>
 
-#5.停止服务
+# 5.停止服务
 
 <pre><code>python NetworkMonitorService.py stop</code></pre>
 
-#6.删除/卸载服务
+# 6.删除/卸载服务
 
 <pre><code>python NetworkMonitorService.py remove</code></pre>
 
